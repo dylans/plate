@@ -63,6 +63,18 @@ export const headingOptions = {
   },
 };
 
+export const listOptions = {
+  ...DEFAULTS_LIST,
+  ol: {
+    ...DEFAULTS_LIST.ol,
+    hotkey: ['mod+opt+7', 'mod+shift+7'],
+  },
+  ul: {
+    ...DEFAULTS_LIST.ul,
+    hotkey: ['mod+opt+8', 'mod+shift+8'],
+  },
+};
+
 export const options = {
   ...setDefaults(DEFAULTS_PARAGRAPH, {}),
   ...setDefaults(DEFAULTS_MENTION, {}),
@@ -73,7 +85,7 @@ export const options = {
   ...setDefaults(DEFAULTS_MEDIA_EMBED, {}),
   ...setDefaults(DEFAULTS_TODO_LIST, {}),
   ...setDefaults(DEFAULTS_TABLE, {}),
-  ...setDefaults(DEFAULTS_LIST, {}),
+  ...setDefaults(listOptions, {}),
   ...setDefaults(headingOptions, {}),
   ...setDefaults(DEFAULTS_ALIGN, {}),
   ...setDefaults(DEFAULTS_BOLD, {}),

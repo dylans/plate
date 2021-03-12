@@ -1,12 +1,12 @@
 import { Editor } from 'slate';
-import { getOnHotkeyToggleNodeTypeDefault } from '../../common';
+import { setDefaults } from '../../common';
 import { isFirstChild } from '../../common/queries';
-import { DEFAULTS_HEADING } from '../heading';
 import { getListItemEntry } from './queries/getListItemEntry';
 import { isAcrossListItems } from './queries/isAcrossListItems';
 import { moveListItemDown } from './transforms/moveListItemDown';
 import { moveListItemUp } from './transforms/moveListItemUp';
 import { DEFAULTS_LIST } from './defaults';
+import { toggleList } from './transforms';
 import { ListOnKeyDownOptions } from './types';
 
 export const onKeyDownList = (options?: ListOnKeyDownOptions) => (
@@ -14,6 +14,8 @@ export const onKeyDownList = (options?: ListOnKeyDownOptions) => (
   editor: Editor
 ) => {
   let moved: boolean | undefined = false;
+
+  console.log(e.key);
 
   if (e.key === 'Tab') {
     const res = getListItemEntry(editor, {}, options);
@@ -40,9 +42,13 @@ export const onKeyDownList = (options?: ListOnKeyDownOptions) => (
       moveListItemDown(editor, { list, listItem }, options);
     }
   }
-  getOnHotkeyToggleNodeTypeDefault({
-    key: ['ol', 'ul'],
-    defaultOptions: DEFAULTS_LIST,
-    options,
+
+  const keys = ['ol', 'ul'];
+  keys.forEach((keyItem) => {
+    const keyOptions = setDefaults(options, DEFAULTS_LIST)[keyItem];
+    const typeList = keyOptions.type;
+    if (e.key === keyOptions.hotkey) {
+      toggleList(editor, { typeList, ...keyOptions });
+    }
   });
 };

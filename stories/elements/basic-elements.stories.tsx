@@ -79,9 +79,21 @@ export const Example = () => {
         rules: [
           {
             hotkey: 'mod+enter',
+            query: {
+              filter: (entry) => {
+                const [node] = entry;
+                return (
+                  node.type !==
+                  (options.code_block.type || options.code_line.type)
+                );
+              },
+            },
           },
           {
             hotkey: 'mod+shift+enter',
+            query: {
+              allow: [options.code_block_container.type],
+            },
             before: true,
           },
           {
